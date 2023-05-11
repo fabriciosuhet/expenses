@@ -44,11 +44,12 @@ class TranscationList extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      tr.title!,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
+                      tr.title!.toUpperCase(),
+                      style: Theme.of(context).textTheme.titleSmall,
+                      // style: const TextStyle(
+                      //   fontWeight: FontWeight.bold,
+                      //   fontSize: 16,
+                      // ),
                     ),
                     Text(
                       DateFormat('d MMM y').format(tr.date!),

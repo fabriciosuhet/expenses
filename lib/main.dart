@@ -13,9 +13,20 @@ class ExpensesApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MyHomePage(),
+      home: const MyHomePage(),
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.pink)
+            .copyWith(secondary: Colors.pink[300]),
+            fontFamily: 'Quicksand',
+            appBarTheme: const AppBarTheme(
+              titleTextStyle: TextStyle(
+                fontFamily: 'OpenSans',
+                fontSize: 20,
+              )
+            ),
+      ),
     );
   }
 }
@@ -54,13 +65,15 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _transactions.add(newTransaction);
     });
+
+    Navigator.of(context).pop();
   }
 
   _openTransactionFormModal(BuildContext context) {
     showModalBottomSheet(
       context: context,
       builder: (_) {
-        return TransactionForm(onSubmit:  null!);
+        return TransactionForm(onSubmit: _addTransaction);
       },
     );
   }
@@ -69,7 +82,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 243, 97, 146),
         actions: [
           IconButton(
             onPressed: () => _openTransactionFormModal(context),
@@ -78,15 +90,15 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
         centerTitle: true,
         title: const Text(
-          'Despesas pessoais',
-          style: TextStyle(fontSize: 28),
+          'Minhas Despesas',
+          style: TextStyle(fontSize: 24,),
         ),
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const SizedBox (
+            const SizedBox(
               width: double.infinity,
               child: Card(
                 color: Colors.blue,
@@ -100,7 +112,6 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _openTransactionFormModal(context),
-        backgroundColor: const Color.fromARGB(255, 243, 97, 146),
         label: const Text('Adicionar'),
         icon: const Icon(Icons.add),
       ),

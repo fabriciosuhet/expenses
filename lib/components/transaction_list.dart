@@ -25,17 +25,18 @@ class TranscationList extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: const Color.fromARGB(255, 243, 97, 146),
+                      color: Theme.of(context).colorScheme.secondary,
                       width: 2,
                     ),
+                    borderRadius: BorderRadius.circular(25),
                   ),
                   padding: const EdgeInsets.all(10),
                   child: Text(
                     'R\$ ${tr.value!.toStringAsFixed(2)}',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
-                      color: Color.fromARGB(255, 243, 97, 146),
+                      color: Theme.of(context).colorScheme.secondary,
                     ),
                   ),
                 ),

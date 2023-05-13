@@ -1,7 +1,10 @@
+import 'package:expenses/components/chart.dart';
 import 'package:expenses/components/transaction_form.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'dart:math';
 import 'components/transaction_list.dart';
+import 'components/chart.dart';
 import '/models/transaction.dart';
 
 void main() {
@@ -14,24 +17,33 @@ class ExpensesApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('pt', 'BR'),
+      ],
+      
       debugShowCheckedModeBanner: false,
       home: const MyHomePage(),
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.pink)
             .copyWith(secondary: Colors.pink[300]),
-            fontFamily: 'Quicksand',
-            textTheme: ThemeData.light().textTheme.copyWith(
+        fontFamily: 'Quicksand',
+        textTheme: ThemeData.light().textTheme.copyWith(
               titleSmall: const TextStyle(
                 fontFamily: 'OpenSans',
                 fontSize: 13,
               ),
             ),
-            appBarTheme: const AppBarTheme(
-              titleTextStyle: TextStyle(
-                fontFamily: 'OpenSans',
-                fontSize: 20,
-              ),
-            ),
+        appBarTheme: const AppBarTheme(
+          titleTextStyle: TextStyle(
+            fontFamily: 'OpenSans',
+            fontSize: 20,
+          ),
+        ),
       ),
     );
   }
@@ -46,19 +58,35 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _transactions = [
-    // Transaction(
-    //   id: 't1',
-    //   title: 'novo tênis de corrida',
-    //   value: 310.76,
-    //   date: DateTime.now(),
-    // ),
-    // Transaction(
-    //   id: 't2',
-    //   title: 'conta de luz',
-    //   value: 211.30,
-    //   date: DateTime.now(),
-    // ),
+    Transaction(
+      id: 't0',
+      title: 'Conta antiga',
+      value: 400.00,
+      date: DateTime.now().subtract(const Duration(days: 33)),
+    ),
+    Transaction(
+      id: 't1',
+      title: 'novo tênis de corrida',
+      value: 310.76,
+      date: DateTime.now().subtract(const Duration(days: 3)),
+    ),
+    Transaction(
+      id: 't2',
+      title: 'conta de luz',
+      value: 211.30,
+      date: DateTime.now().subtract(const Duration(days: 3)),
+    ),
   ];
+
+  List<Transaction> get _recentTransactions {
+    return _transactions.where((tr) {
+      return tr.date!.isAfter(
+        DateTime.now().subtract(
+          const Duration(days: 7),
+        ),
+      );
+    }).toList();
+  }
 
   _addTransaction(String title, double value) {
     final newTransaction = Transaction(
@@ -94,24 +122,18 @@ class _MyHomePageState extends State<MyHomePage> {
             icon: const Icon(Icons.add),
           ),
         ],
-        centerTitle: true,
         title: const Text(
           'Minhas Despesas',
-          style: TextStyle(fontSize: 24,),
+          style: TextStyle(
+            fontSize: 20,
+          ),
         ),
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const SizedBox(
-              width: double.infinity,
-              child: Card(
-                color: Colors.blue,
-                elevation: 5,
-                child: Text('Gráfico'),
-              ),
-            ),
+            Chart(recentsTransactions: _recentTransactions),
             TranscationList(transactions: _transactions),
           ],
         ),

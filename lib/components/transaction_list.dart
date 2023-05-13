@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/transaction.dart';
 import 'package:intl/intl.dart';
 
+
 class TranscationList extends StatelessWidget {
   final List<Transaction> transactions;
 
@@ -57,7 +58,7 @@ class TranscationList extends StatelessWidget {
                           'R\$ ${tr.value!.toStringAsFixed(2)}',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 20,
+                            fontSize: 15,
                             color: Theme.of(context).colorScheme.secondary,
                           ),
                         ),
@@ -66,11 +67,13 @@ class TranscationList extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            tr.title!.toUpperCase(),
+                            tr.title!,
                             style: Theme.of(context).textTheme.titleSmall,
                           ),
                           Text(
-                            DateFormat('dd MMM yyyy').format(tr.date!),
+                            DateFormat('dd MMM yyyy', 'pt_BR')
+                                .format(tr.date!)
+                                .toUpperCase(),
                             style: const TextStyle(
                               color: Color.fromARGB(255, 73, 73, 73),
                             ),
